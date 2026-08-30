@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- config.js vem primeiro: o GTM, a fonte e as cores saem dele. -->
+<script src="config.js"></script>
+
+<script>
+  document.title = CONFIG.marca.titulo;
+
+  // ---------- Google Tag Manager (id vindo do config) ----------
+  if (CONFIG.tracking.gtmId && !/^GTM-X+$/.test(CONFIG.tracking.gtmId)) {
+    (function (w, d, s, l, i) {
+      w[l] = w[l] || []; w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+      var f = d.getElementsByTagName(s)[0], j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+      j.async = true; j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+      f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', CONFIG.tracking.gtmId);
+  } else {
+    console.warn('[funil] GTM não configurado — nenhum evento será enviado.');
+  }
+
+  // ---------- Fonte e cores ----------
+  (function () {
+    var head = document.head;
+    var f = CONFIG.marca.fonte;
+    if (f && f.url) {
+      [['preconnect', 'https://fonts.googleapis.com'], ['preconnect', 'https://fonts.gstatic.com']]
+        .forEach(function (p) {
+          var l = document.createElement('link');
+          l.rel = p[0]; l.href = p[1];
+          if (p[1].indexOf('gstatic') > -1) l.crossOrigin = '';
+          head.appendChild(l);
+        });
+      var link = document.createElement('link');
+      link.rel = 'stylesheet'; link.href = f.url;
+      head.appendChild(link);
+    }
+    var r = document.documentElement.style;
+    r.setProperty('--fonte', (f && f.pilha) || 'system-ui, -apple-system, Arial, sans-serif');
+    r.setProperty('--cor-texto', CONFIG.cores.texto);
+    r.setProperty('--cor-fundo', CONFIG.cores.fundo);
+    r.setProperty('--cor-primaria', CONFIG.cores.primaria);
+    r.setProperty('--cor-destaque', CONFIG.cores.destaque);
+    // Derivados da primaria, pra paleta nao ficar meio trocada:
+    // o texto da tarja e o hover do botao seguiam fixos no taupe do template.
+    function escurecer(hex, f) {
+      var n = parseInt(String(hex).replace('#', ''), 16);
+      if (isNaN(n)) return hex;
+      var c = [n >> 16 & 255, n >> 8 & 255, n & 255].map(function (v) {
+        return Math.max(0, Math.round(v * (1 - f)));
+      });
+      return '#' + c.map(function (v) { return ('0' + v.toString(16)).slice(-2); }).join('');
+    }
+    r.setProperty('--cor-destaque-texto', CONFIG.cores.destaqueTexto || CONFIG.cores.primaria);
+    r.setProperty('--cor-primaria-hover', CONFIG.cores.primariaHover || escurecer(CONFIG.cores.primaria, 0.18));
+  })();
+
+  // Calendly: abre a conexão antes da hora, pra tela final não esperar DNS/TLS
+  if (CONFIG.calendly.ativo) {
+    ['https://assets.calendly.com', 'https://calendly.com'].forEach(function (h) {
+      var l = document.createElement('link');
+      l.rel = 'preconnect'; l.href = h; l.crossOrigin = '';
+      document.head.appendChild(l);
+    });
+  }
+</script>
+
+<link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+
+<!-- Google Tag Manager (noscript) — inserido por JS com o id do config -->
+<noscript><iframe id="gtmNoscript" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- Honeypot anti-bot: campo invisível pra humano, bot que preenche tudo cai aqui -->
+<div style="position:absolute; left:-9999px; top:-9999px;" aria-hidden="true">
+  <label for="hpField">Não preencha este campo</label>
+  <input type="text" id="hpField" name="empresa_site" tabindex="-1" autocomplete="off">
+</div>
+
+<div class="wrap">
+
+  <!-- ============ CAPA ============ -->
+  <div class="screen active cover" id="screen-cover">
+    <h1 id="coverHeadline"></h1>
+    <ul class="bullets" id="coverBullets"></ul>
+    <p class="cover-footer" id="coverFooter"></p>
+    <button class="primary-btn" id="btn-cover-start"></button>
+  </div>
+
+  <!-- ============ NOME ============ -->
+  <div class="screen" id="screen-name">
+    <p class="step-label" data-step="1"></p>
+    <h1 class="light-heading" id="nameTitle"></h1>
+    <input type="text" id="nameInput" required>
+    <div class="error" id="nameError"></div>
+    <button class="primary-btn" id="nameSubmit">Continuar</button>
+    <p class="enter-hint">pressione <kbd>Enter ↵</kbd></p>
+  </div>
+
+  <!-- ============ INSTAGRAM ============ -->
+  <div class="screen" id="screen-instagram">
+    <button type="button" class="back-btn" data-target="screen-name">← Voltar</button>
+    <p class="step-label" data-step="2"></p>
+    <h1 class="light-heading" id="instagramTitle"></h1>
+    <input type="text" id="instagramInput" class="underline" required>
+    <div class="error" id="instagramError"></div>
+    <button class="primary-btn" id="instagramSubmit">Continuar</button>
+    <p class="enter-hint">pressione <kbd>Enter ↵</kbd></p>
+  </div>
+
+  <!-- ============ TELEFONE ============ -->
+  <div class="screen" id="screen-phone">
+    <button type="button" class="back-btn" data-target="screen-instagram">← Voltar</button>
+    <p class="step-label" data-step="3"></p>
+    <h1 class="light-heading" id="phoneTitle"></h1>
+    <div class="phone-row">
+      <button type="button" class="country-btn" id="countryBtn">
+        <span id="countryFlag">🇧🇷</span>
+        <span id="countryCode">+55</span>
+        <span class="country-chevron">▾</span>
+      </button>
+      <input type="tel" id="whatsappInput" class="underline" required>
+      <div class="country-dropdown" id="countryDropdown">
+        <div class="country-search">
+          <input type="text" id="countrySearch" placeholder="🔍 Buscar país...">
+        </div>
+        <div id="countryList"></div>
+      </div>
+    </div>
+    <div class="error" id="phoneError"></div>
+    <button class="primary-btn" id="phoneSubmit">Continuar</button>
+    <p class="enter-hint">pressione <kbd>Enter ↵</kbd></p>
+  </div>
+
+  <!-- ============ PERGUNTAS (montadas pelo app.js a partir do config) ====== -->
+  <div id="perguntas"></div>
+
+  <!-- ============ AGENDAMENTO ============ -->
+  <div class="screen" id="screen-agendar">
+    <h1 id="agendarTitulo"></h1>
+    <p class="subtitle" id="agendarSubtitulo"></p>
+    <div class="calendly-wrap">
+      <div id="calendlyBox" class="calendly-box"></div>
+      <div class="calendly-skeleton" id="calendlySkeleton">Carregando o calendário…</div>
+    </div>
+    <a class="calendly-fallback" id="btnAgendar" href="#" target="_blank" rel="noopener"></a>
+  </div>
+
+  <!-- ============ OBRIGADO ============ -->
+  <div class="screen" id="screen-thanks">
+    <h1 id="thanksTitulo"></h1>
+    <p class="subtitle" id="thanksTexto"></p>
+  </div>
+
+</div>
+
+<script src="paises.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

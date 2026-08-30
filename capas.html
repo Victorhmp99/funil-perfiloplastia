@@ -1,0 +1,544 @@
+<meta charset="utf-8">
+<title>Capas da Perfiloplastia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,400&display=swap">
+<style>
+:root { color-scheme: light !important; }
+/* =======================================================================
+   Variaveis de tema. Os 4 principais (--cor-primaria, --cor-texto,
+   --cor-fundo, --cor-destaque) sao sobrescritos pelo config.js no boot.
+   Os tons abaixo sao os padroes; sobrescreva em CONFIG.cores.tons se o
+   cliente tiver uma paleta muito diferente.
+   ======================================================================= */
+:root {
+  --fonte: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --cor-primaria: #7A5747;
+  --cor-primaria-hover: #64463A;
+  --cor-texto: #2E2621;
+  --cor-texto-2: #6B5A4E;
+  --cor-texto-3: #8C7A6D;
+  --cor-fundo: #ffffff;
+  --cor-suave: #FBF7F3;
+  --cor-borda: #EAE1D9;
+  --cor-linha: #EFE4DA;
+  --cor-destaque: #F4EAE1;
+  --cor-destaque-texto: #6E4A3A;
+  --cor-acento: #A8836B;
+  --cor-erro: #d93025;
+}
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    height: 100%;
+    font-family: var(--fonte);
+    background: var(--cor-fundo);
+    color: var(--cor-texto);
+    -webkit-font-smoothing: antialiased;
+  }
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+
+  .progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 4px;
+    background: var(--cor-primaria);
+    width: 0%;
+    transition: width 0.4s ease;
+    z-index: 10;
+  }
+
+  .wrap {
+    max-width: 560px;
+    width: 100%;
+  }
+
+  .screen {
+    display: none;
+    animation: fadeIn 0.4s ease;
+  }
+  .screen.active { display: block; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ---------- CAPA ---------- */
+  .cover h1 {
+    font-size: clamp(23px, 6.4vw, 33px);
+    font-weight: 900;
+    line-height: 1.32;
+    letter-spacing: -0.015em;
+    margin: 0 0 22px;
+    text-align: left;
+    /* distribui as linhas em vez de deixar uma palavra sozinha na ultima */
+    text-wrap: balance;
+  }
+  /* destaque igual ao do criativo: tarja clara atras da palavra-chave.
+     nowrap e' o ponto critico: sem ele a tarja parte no meio da expressao. */
+  .cover h1 .hl {
+    display: inline-block;
+    white-space: nowrap;
+    color: var(--cor-destaque-texto);
+    background: var(--cor-destaque);
+    border-radius: 5px;
+    padding: 0 8px;
+  }
+
+  .bullets {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 26px;
+  }
+  .bullets li {
+    /* nowrap + clamp: o bullet encolhe em vez de quebrar linha no celular */
+    white-space: nowrap;
+    font-size: clamp(14px, 4.3vw, 17px);
+    line-height: 1.75;
+    text-align: left;
+  }
+  .bullets .b-emoji { margin-right: 10px; }
+
+  .cover-footer {
+    font-style: italic;
+    font-size: 13px;
+    line-height: 1.6;
+    letter-spacing: 0.02em;
+    color: var(--cor-texto-2);
+    border-left: 3px solid var(--cor-primaria);
+    padding-left: 12px;
+    margin: 0 0 26px;
+    text-align: left;
+  }
+
+  .step-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--cor-primaria);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  h1 {
+    font-size: 28px;
+    line-height: 1.3;
+    margin: 0 0 32px;
+  }
+
+  input[type="tel"],
+  input[type="text"] {
+    width: 100%;
+    padding: 16px 18px;
+    border: 2px solid var(--cor-borda);
+    border-radius: 10px;
+    font-size: 18px;
+    font-family: inherit;
+    margin-bottom: 20px;
+  }
+  input[type="tel"]:focus,
+  input[type="text"]:focus {
+    outline: none;
+    border-color: var(--cor-primaria);
+  }
+
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: none;
+    border: none;
+    color: var(--cor-texto-3);
+    font-size: 14px;
+    font-family: inherit;
+    cursor: pointer;
+    padding: 4px 0;
+    margin-bottom: 16px;
+  }
+  .back-btn:hover { color: var(--cor-primaria); }
+
+  .primary-btn {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 18px 16px;
+    background: var(--cor-primaria);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    /* nowrap + clamp: o CTA encolhe em vez de quebrar linha no celular */
+    white-space: nowrap;
+    font-size: clamp(15px, 4.4vw, 17px);
+    font-weight: 800;
+    font-family: inherit;
+    letter-spacing: 0.02em;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(122, 87, 71, 0.26);
+    transition: background 0.15s, transform 0.05s;
+  }
+  .primary-btn:hover { background: var(--cor-primaria-hover); }
+  .primary-btn:active { transform: translateY(1px); }
+  .primary-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  p.subtitle {
+    color: var(--cor-texto-2);
+    font-size: 15px;
+    line-height: 1.5;
+    margin: -20px 0 28px;
+  }
+
+  .error {
+    color: var(--cor-erro);
+    font-size: 13px;
+    margin: -12px 0 16px;
+    display: none;
+  }
+  .phone-row + .error { margin-top: 8px; }
+
+  .light-heading { font-weight: 400; }
+  .required-mark { color: var(--cor-erro); }
+
+  .letter-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .letter-option {
+    display: flex;
+    align-items: center;
+    text-align: left;
+    width: 100%;
+    padding: 16px 20px;
+    border: 2px solid var(--cor-borda);
+    border-radius: 10px;
+    background: #fff;
+    font-size: 16px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .letter-option:hover { border-color: var(--cor-primaria); background: var(--cor-suave); }
+  .letter-option.selected { border-color: var(--cor-primaria); background: var(--cor-suave); }
+  .letter-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border: 2px solid var(--cor-borda);
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 14px;
+    margin-right: 14px;
+    flex-shrink: 0;
+    transition: border-color 0.15s, background 0.15s, color 0.15s;
+  }
+  .letter-option.selected .letter-badge { border-color: var(--cor-primaria); background: var(--cor-primaria); color: #fff; }
+
+  /* Calendly embutido na tela final.
+     A altura fica na nossa classe: o script do Calendly nao aplica classe
+     nenhuma no container, e sem isso o iframe colapsa pra ~150px. */
+  .calendly-box {
+    width: 100%;
+    min-width: 320px;
+    height: 700px;
+  }
+  .calendly-wrap { position: relative; }
+  .calendly-skeleton {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--cor-suave);
+    border: 1px solid var(--cor-linha);
+    border-radius: 12px;
+    color: var(--cor-texto-3);
+    font-size: 14px;
+    animation: pulsa 1.4s ease-in-out infinite;
+  }
+  .calendly-skeleton.fim { display: none; }
+  /* quando o embed nao carrega (rede, adblock, bloqueio do Calendly): o
+     esqueleto vira um caminho de saida em vez de deixar a tela vazia */
+  .calendly-skeleton.erro {
+    animation: none;
+    flex-direction: column;
+    gap: 16px;
+    padding: 28px 24px;
+    text-align: center;
+    color: var(--cor-texto-2);
+    line-height: 1.5;
+  }
+  .calendly-skeleton.erro .primary-btn { width: auto; padding: 16px 26px; }
+  @keyframes pulsa {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.55; }
+  }
+  .calendly-box iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+  @media (max-width: 600px) {
+    .calendly-box { height: 1000px; }
+  }
+  /* a tela do agendamento e' alta: o corpo para de centralizar e deixa rolar */
+  body.tela-agendamento { align-items: flex-start; }
+  .calendly-fallback {
+    display: block;
+    text-align: center;
+    font-size: 13px;
+    color: var(--cor-texto-3);
+    margin-top: 10px;
+  }
+
+  /* Card de recomendação de investimento */
+  .rec-card {
+    background: var(--cor-suave);
+    border: 1px solid var(--cor-linha);
+    border-left: 4px solid var(--cor-acento);
+    border-radius: 12px;
+    padding: 20px 22px;
+    margin: 0 0 24px;
+  }
+  .rec-card p {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--cor-texto);
+  }
+  .rec-card strong { font-weight: 900; color: var(--cor-texto); }
+
+  .enter-hint {
+    color: var(--cor-texto-3);
+    font-size: 13px;
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .enter-hint kbd {
+    background: #f2f2f2;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 2px 8px;
+    font-family: inherit;
+    font-size: 12px;
+  }
+
+  .phone-row {
+    display: flex;
+    align-items: stretch;
+    gap: 10px;
+    position: relative;
+  }
+  .country-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: none;
+    border-bottom: 2px solid var(--cor-borda);
+    padding: 16px 4px;
+    font-size: 18px;
+    font-family: inherit;
+    cursor: pointer;
+    white-space: nowrap;
+    color: var(--cor-texto);
+  }
+  .country-btn:hover, .country-btn:focus {
+    outline: none;
+    border-color: var(--cor-primaria);
+  }
+  .country-chevron { font-size: 11px; color: var(--cor-texto-3); }
+
+  input.underline {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    border-radius: 0;
+    border-bottom: 2px solid var(--cor-borda);
+    padding: 16px 4px;
+    margin-bottom: 0;
+  }
+  input.underline:focus { border-color: var(--cor-primaria); }
+
+  .country-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 8px;
+    width: 320px;
+    max-width: 90vw;
+    max-height: 320px;
+    overflow-y: auto;
+    background: #fff;
+    border: 1px solid var(--cor-borda);
+    border-radius: 10px;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.14);
+    z-index: 30;
+    display: none;
+  }
+  .country-dropdown.open { display: block; }
+  .country-search {
+    position: sticky;
+    top: 0;
+    background: #fff;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+  }
+  .country-search input {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    margin-bottom: 0;
+  }
+  .country-option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px 14px;
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    font-size: 15px;
+    font-family: inherit;
+  }
+  .country-option:hover { background: var(--cor-suave); }
+  .country-option .cflag { margin-right: 8px; }
+  .country-option .ccode { color: var(--cor-texto-3); font-size: 13px; }
+
+html, body {
+  background: #F2F4F6 !important; color: #2E2621 !important;
+  height: auto; min-height: 100%;
+}
+:root {
+  --cor-primaria: #1F3A4D; --cor-primaria-hover: #193040;
+  --cor-destaque: #DCE7EE; --cor-destaque-texto: #1F3A4D;
+}
+.pagina { max-width: 1180px; margin: 0 auto; padding: 40px 20px 64px; }
+.intro h1 { font-size: 26px; margin: 0 0 6px; letter-spacing: -0.01em; }
+.intro p { margin: 0 0 4px; color: #5A6570; font-size: 15px; line-height: 1.6; max-width: 62ch; }
+.grade {
+  display: grid; gap: 28px; margin-top: 34px;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+}
+.versao { display: flex; flex-direction: column; gap: 10px; }
+.vh { display: flex; align-items: baseline; gap: 10px; }
+.vn {
+  font-size: 11px; font-weight: 900; letter-spacing: 0.12em;
+  text-transform: uppercase; color: #1F3A4D;
+  background: #DCE7EE; padding: 4px 9px; border-radius: 4px;
+}
+.vh h2 { font-size: 15px; font-weight: 700; margin: 0; color: #3B4854; }
+.tela {
+  width: 375px; max-width: 100%; background: #fff;
+  border: 1px solid #DFE4E9; border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(20,35,50,.07); overflow: hidden;
+}
+.tela .cover { padding: 26px 22px 24px; }
+.bullets li { display: flex; align-items: baseline; }
+.medida { font-size: 12px; margin: 0; color: #6B7683; font-variant-numeric: tabular-nums; }
+.medida.ruim { color: #B3261E; font-weight: 700; }
+</style>
+<div class="pagina">
+  <div class="intro">
+    <h1>Capas da perfiloplastia</h1>
+    <p>Cinco ângulos de headline + bullets para o mesmo funil. O corte do rodapé é igual em todas: profissional que já atende e fatura acima de 30k.</p>
+    <p>Cada capa está renderizada na largura real do celular (375px), com a fonte e os estilos do motor. A linha embaixo mede se algum bullet estoura — eles são <code>nowrap</code>, então caractere a mais vaza em vez de quebrar linha.</p>
+  </div>
+  <div class="grade">
+<section class="versao">
+  <header class="vh"><span class="vn">Versão 1</span><h2>Caso completo (anti-&quot;uma seringa&quot;)</h2></header>
+  <div class="tela">
+    <div class="cover">
+      <h1 class="cover-headline">Perfiloplastia: <span class="hl">agenda cheia</span> de caso completo, não de <span class="hl">uma seringa</span></h1>
+      <ul class="bullets"><li><span class="b-emoji">💎</span><span class="b-txt" data-n="26">Paciente de plano completo</span></li><li><span class="b-emoji">🎯</span><span class="b-txt" data-n="24">Anúncio só na sua cidade</span></li><li><span class="b-emoji">💬</span><span class="b-txt" data-n="34">Script que fecha antes da consulta</span></li><li><span class="b-emoji">🧬</span><span class="b-txt" data-n="26">Agência que fala de perfil</span></li></ul>
+      <p class="cover-footer">→ ESPECÍFICO PARA PROFISSIONAIS DE PERFILOPLASTIA — DENTISTAS DE HOF E CIRURGIÕES PLÁSTICOS — QUE JÁ ATENDEM E FATURAM ACIMA DE 30K POR MÊS. SE VOCÊ AINDA NÃO CHEGOU NESSE PATAMAR, ESSE NÃO É O SEU MOMENTO.</p>
+      <button class="primary-btn" type="button">QUERO CASO COMPLETO →</button>
+    </div>
+  </div>
+  <p class="medida" data-medida></p>
+</section>
+<section class="versao">
+  <header class="vh"><span class="vn">Versão 2</span><h2>Anti-orçamento (o que mais dói)</h2></header>
+  <div class="tela">
+    <div class="cover">
+      <h1 class="cover-headline">Chega de <span class="hl">orçamento que some</span>: quem chega já quer <span class="hl">fechar o perfil</span></h1>
+      <ul class="bullets"><li><span class="b-emoji">🚫</span><span class="b-txt" data-n="30">Fim do &quot;vou pensar e te aviso&quot;</span></li><li><span class="b-emoji">💎</span><span class="b-txt" data-n="31">Quem já decidiu tratar o perfil</span></li><li><span class="b-emoji">📍</span><span class="b-txt" data-n="30">Só quem pode ir até a sua sala</span></li><li><span class="b-emoji">📈</span><span class="b-txt" data-n="26">Agenda previsível todo mês</span></li></ul>
+      <p class="cover-footer">→ ESPECÍFICO PARA PROFISSIONAIS DE PERFILOPLASTIA — DENTISTAS DE HOF E CIRURGIÕES PLÁSTICOS — QUE JÁ ATENDEM E FATURAM ACIMA DE 30K POR MÊS. SE VOCÊ AINDA NÃO CHEGOU NESSE PATAMAR, ESSE NÃO É O SEU MOMENTO.</p>
+      <button class="primary-btn" type="button">QUERO PACIENTE DECIDIDO →</button>
+    </div>
+  </div>
+  <p class="medida" data-medida></p>
+</section>
+<section class="versao">
+  <header class="vh"><span class="vn">Versão 3</span><h2>Técnica (só o nicho entende)</h2></header>
+  <div class="tela">
+    <div class="cover">
+      <h1 class="cover-headline">Seu <span class="hl">terço inferior</span> é referência. Sua <span class="hl">agenda</span> devia ser também</h1>
+      <ul class="bullets"><li><span class="b-emoji">🦴</span><span class="b-txt" data-n="29">Caso de mento e cervicomental</span></li><li><span class="b-emoji">💎</span><span class="b-txt" data-n="32">Ticket de perfil, não de retoque</span></li><li><span class="b-emoji">🎯</span><span class="b-txt" data-n="28">Anúncio no seu raio de 20 km</span></li><li><span class="b-emoji">📆</span><span class="b-txt" data-n="29">Consulta marcada, não curioso</span></li></ul>
+      <p class="cover-footer">→ ESPECÍFICO PARA PROFISSIONAIS DE PERFILOPLASTIA — DENTISTAS DE HOF E CIRURGIÕES PLÁSTICOS — QUE JÁ ATENDEM E FATURAM ACIMA DE 30K POR MÊS. SE VOCÊ AINDA NÃO CHEGOU NESSE PATAMAR, ESSE NÃO É O SEU MOMENTO.</p>
+      <button class="primary-btn" type="button">QUERO CASO DE PERFIL →</button>
+    </div>
+  </div>
+  <p class="medida" data-medida></p>
+</section>
+<section class="versao">
+  <header class="vh"><span class="vn">Versão 4</span><h2>Autoridade (parar de disputar preço)</h2></header>
+  <div class="tela">
+    <div class="cover">
+      <h1 class="cover-headline">Pare de disputar <span class="hl">preço de seringa</span> e comece a ser procurado por <span class="hl">perfil</span></h1>
+      <ul class="bullets"><li><span class="b-emoji">👑</span><span class="b-txt" data-n="30">Procurado pelo nome, não preço</span></li><li><span class="b-emoji">💎</span><span class="b-txt" data-n="27">Paciente que entende perfil</span></li><li><span class="b-emoji">💬</span><span class="b-txt" data-n="31">WhatsApp que não vira orçamento</span></li><li><span class="b-emoji">📊</span><span class="b-txt" data-n="25">Previsão de caso todo mês</span></li></ul>
+      <p class="cover-footer">→ ESPECÍFICO PARA PROFISSIONAIS DE PERFILOPLASTIA — DENTISTAS DE HOF E CIRURGIÕES PLÁSTICOS — QUE JÁ ATENDEM E FATURAM ACIMA DE 30K POR MÊS. SE VOCÊ AINDA NÃO CHEGOU NESSE PATAMAR, ESSE NÃO É O SEU MOMENTO.</p>
+      <button class="primary-btn" type="button">QUERO SER REFERÊNCIA →</button>
+    </div>
+  </div>
+  <p class="medida" data-medida></p>
+</section>
+<section class="versao">
+  <header class="vh"><span class="vn">Versão 5</span><h2>Previsibilidade (sem depender de indicação)</h2></header>
+  <div class="tela">
+    <div class="cover">
+      <h1 class="cover-headline"><span class="hl">Perfil fechado</span> toda semana, sem depender de <span class="hl">indicação</span></h1>
+      <ul class="bullets"><li><span class="b-emoji">🔁</span><span class="b-txt" data-n="28">Sem depender só de indicação</span></li><li><span class="b-emoji">💎</span><span class="b-txt" data-n="26">Caso completo, não pontual</span></li><li><span class="b-emoji">🎯</span><span class="b-txt" data-n="27">Público certo na sua região</span></li><li><span class="b-emoji">📆</span><span class="b-txt" data-n="27">Fluxo constante de consulta</span></li></ul>
+      <p class="cover-footer">→ ESPECÍFICO PARA PROFISSIONAIS DE PERFILOPLASTIA — DENTISTAS DE HOF E CIRURGIÕES PLÁSTICOS — QUE JÁ ATENDEM E FATURAM ACIMA DE 30K POR MÊS. SE VOCÊ AINDA NÃO CHEGOU NESSE PATAMAR, ESSE NÃO É O SEU MOMENTO.</p>
+      <button class="primary-btn" type="button">QUERO AGENDA PREVISÍVEL →</button>
+    </div>
+  </div>
+  <p class="medida" data-medida></p>
+</section></div>
+</div>
+<script>
+document.querySelectorAll('.versao').forEach(function (v) {
+  var estouros = [];
+  var maior = 0;
+  v.querySelectorAll('.b-txt').forEach(function (t) {
+    var n = Number(t.dataset.n);
+    if (n > maior) maior = n;
+    var li = t.closest('li');
+    if (li.scrollWidth > li.clientWidth + 1) estouros.push(n + ' chars');
+  });
+  var alvo = v.querySelector('[data-medida]');
+  if (estouros.length) {
+    alvo.textContent = '⚠️ estoura a 375px: ' + estouros.join(', ');
+    alvo.classList.add('ruim');
+  } else {
+    alvo.textContent = '✓ cabe a 375px — bullet mais longo: ' + maior + ' caracteres';
+  }
+});
+</script>
